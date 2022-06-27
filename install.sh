@@ -1,7 +1,8 @@
 #!/bin/bash
-
+echo "[+] Running basic update & upgrade"
 sudo apt update && sudo apt upgrade -y
 
+echo "[+] Installing extra tools & themes"
 sudo apt-get install -y arandr flameshot arc-theme feh i3blocks i3status i3 i3-wm lxappearance python3-pip rofi unclutter cargo compton papirus-icon-theme imagemagick
 sudo apt-get install -y libxcb-shape0-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev autoconf meson
 sudo apt-get install -y libxcb-render-util0-dev libxcb-shape0-dev libxcb-xfixes0-dev 
@@ -20,16 +21,19 @@ wget https://github.com/barnumbirr/alacritty-debian/releases/download/v0.10.0-rc
 sudo dpkg -i alacritty_0.10.0-rc4-1_amd64_bullseye.deb
 sudo apt install -f
 
+echo "[+] Installing I3 desktop manager"
 git clone https://www.github.com/Airblader/i3 i3-gaps
 cd i3-gaps && mkdir -p build && cd build && meson ..
 ninja
 sudo ninja install
 cd ../..
 
+echo "[+] Installing pipx"
 python3 -m pip install --user pipx
 python3 -m pipx ensurepath
 pip3 install pywal
 
+echo "[+] Configs"
 mkdir -p ~/.config/i3
 mkdir -p ~/.config/compton
 mkdir -p ~/.config/rofi
@@ -43,10 +47,14 @@ cp .fehbg ~/.fehbg
 cp .config/i3/clipboard_fix.sh ~/.config/i3/clipboard_fix.sh
 cp -r .wallpaper ~/.wallpaper 
 
+echo "# Added during install" >> ~/.zshrc
+echo "setxkbmap be" >> ~/.zshrc
 echo "export PATH=$HOME/.local/bin:$PATH" >> ~/.zshrc
+echo "[+] Installing WeaponizeKali.sh"
 bash <(curl -sL https://github.com/penetrarnya-tm/WeaponizeKali.sh/raw/main/WeaponizeKali.sh) -idtw
 
-echo "Done! Grab some wallpaper and run pywal -i filename to set your color scheme. To have the wallpaper set on every boot edit ~.fehbg"
-echo "After reboot: Select i3 on login, run lxappearance and select arc-dark"
+echo "[+] Done! Grab some wallpaper and run pywal -i filename to set your color scheme. To have the wallpaper set on every boot edit ~.fehbg"
+echo "[+] After reboot: Select i3 on login, run lxappearance and select arc-dark"
 
+echo "[+] Installing OhMyZsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
